@@ -26,8 +26,8 @@
         var finishBeep = new Audio('finish-beep.mp3');
 
         var precount = 5;
-        var finishSoonSeconds = 5;
-        var totalSeconds = 10;
+        var finishSoonSeconds = 30;
+        var totalSeconds = 210;
 
         function init() {
             document.getElementById('timeleftcounter').innerHTML = totalSeconds;
@@ -68,6 +68,9 @@
 
             setTimeout(function(){
                 finishSoonBeep.play();
+                setTimeout(function() {
+                    finishSoonBeep.play();
+                }, 2000);
             }, startDelay + totalSeconds*1000 - finishSoonSeconds*1000);
 
             setTimeout(function(){
