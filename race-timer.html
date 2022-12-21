@@ -1,0 +1,87 @@
+<html>
+<head>
+    <title>Race timer</title>
+    <style>
+        input {
+            margin-top: 5px;
+        }
+
+        .timeleftlabel {
+            font-size: 200;
+        }
+
+        .timeleftcounter {
+        font-size: 600;
+        }
+
+        .bigpanel {
+            margin: auto;
+            text-align: center;
+        }
+    </style>
+    <script>
+        var precountBeep = new Audio('precount-beep.mp3');
+        var startBeep = new Audio('start-beep.mp3');
+        var finishSoonBeep = new Audio('finishsoon-beep.mp3');
+        var finishBeep = new Audio('finish-beep.mp3');
+
+        var precount = 5;
+        var finishSoonSeconds = 5;
+        var totalSeconds = 10;
+
+        function init() {
+            document.getElementById('timeleftcounter').innerHTML = totalSeconds;
+        }
+
+        function start() {
+            var startDelay = Math.random() * (8000 - 5000) + 5000;
+            console.log('Start delay: ' + startDelay + 'ms');
+
+            precountBeep.play();
+            var endTimeUTCSeconds = 0
+
+            setTimeout(function(){
+                precountBeep.play();
+            }, 1000);
+            setTimeout(function(){
+                precountBeep.play();
+            }, 2000);
+            setTimeout(function(){
+                precountBeep.play();
+            }, 3000);
+            setTimeout(function(){
+                precountBeep.play();
+            }, 4000);
+            setTimeout(function(){
+                endTimeUTCSeconds = Date.now()/1000 + totalSeconds;
+                startBeep.play();
+
+                setInterval(function() {
+                    var currentUTCSeconds = Date.now()/1000;
+                    var secondsLeft = Math.round(endTimeUTCSeconds - currentUTCSeconds);
+                    if (secondsLeft >= 0) {
+                        document.getElementById('timeleftcounter').innerHTML = secondsLeft;
+                    }
+                }, 1000);
+
+            }, startDelay);
+
+            setTimeout(function(){
+                finishSoonBeep.play();
+            }, startDelay + totalSeconds*1000 - finishSoonSeconds*1000);
+
+            setTimeout(function(){
+                finishBeep.play();
+            }, startDelay + totalSeconds*1000);
+        }
+    </script>
+</head>
+<body onload="init()">
+    <input id="start" type="button" value="Start" onclick="start()"/>
+    <div class="bigpanel">
+        <span class="timeleftlabel">Time left</span>
+        <br>
+        <span id="timeleftcounter" class="timeleftcounter">120</span>
+    </div>
+</body>
+</html>
